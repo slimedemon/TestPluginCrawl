@@ -55,17 +55,70 @@ namespace PluginCrawl
 
             //txtDisplay.Text = plugin.CrawChapter(new Novel() { Slug = "thien-tai-tuong-su" }, new Chapter() { Slug = "chuong-8" });
 
-            PrintNovels();
+            PrintCompletedNovelsWithPage(2);
 
         }
 
-        void PrintNovels() 
+        public async void PrintAllNovelsBySearch(string keyword) 
         {
             PluginCrawlTruyenFull plugin = new PluginCrawlTruyenFull();
 
-            var task =  plugin.CrawlSearch("Anh Dao");
-            var novels = task.Result;
+            var novels = await plugin.CrawlSearch(keyword);
             string txt = "\n --------------------------------- \n";
+            txtDisplay.AppendText(txt);
+            foreach (var novel in novels)
+            {
+                txt = "\n --------------------------------- \n";
+                txt = txt + "Title: " + novel.Title + "\n";
+                txt = txt + "Author: " + novel.Authors[0].Name + "\n";
+                txt = txt + "Cover: " + novel.Cover + "\n";
+                txtDisplay.AppendText(txt);
+            }
+        }
+
+        public async void PrintHotNovelsWithPage(int page)
+        {
+            PluginCrawlTruyenFull plugin = new PluginCrawlTruyenFull();
+
+            var (novels, totalPage) = await plugin.CrawlHot(page);
+            string txt = "\n --------------------------------- \n";
+            txt = txt + "Total page: " + totalPage + "\n";
+            txtDisplay.AppendText(txt);
+            foreach (var novel in novels)
+            {
+                txt = "\n --------------------------------- \n";
+                txt = txt + "Title: " + novel.Title + "\n";
+                txt = txt + "Author: " + novel.Authors[0].Name + "\n";
+                txt = txt + "Cover: " + novel.Cover + "\n";
+                txtDisplay.AppendText(txt);
+            }
+        }
+
+        public async void PrintLatestNovelsWithPage(int page)
+        {
+            PluginCrawlTruyenFull plugin = new PluginCrawlTruyenFull();
+
+            var (novels, totalPage) = await plugin.CrawlLatest(page);
+            string txt = "\n --------------------------------- \n";
+            txt = txt + "Total page: " + totalPage + "\n";
+            txtDisplay.AppendText(txt);
+            foreach (var novel in novels)
+            {
+                txt = "\n --------------------------------- \n";
+                txt = txt + "Title: " + novel.Title + "\n";
+                txt = txt + "Author: " + novel.Authors[0].Name + "\n";
+                txt = txt + "Cover: " + novel.Cover + "\n";
+                txtDisplay.AppendText(txt);
+            }
+        }
+
+        public async void PrintCompletedNovelsWithPage(int page)
+        {
+            PluginCrawlTruyenFull plugin = new PluginCrawlTruyenFull();
+
+            var (novels, totalPage) = await plugin.CrawlCompleted(page);
+            string txt = "\n --------------------------------- \n";
+            txt = txt + "Total page: " + totalPage + "\n";
             txtDisplay.AppendText(txt);
             foreach (var novel in novels)
             {
