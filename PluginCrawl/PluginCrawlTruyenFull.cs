@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Cryptography.Pkcs;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -27,7 +28,7 @@ namespace PluginCrawl
             var (novels, totalPage) = await CrawlNovels($"{Url}tim-kiem/?tukhoa={keyword}&page=<page>");
 
             List<Novel> listNovel = new List<Novel>();
-            for (int i = 0; i < totalPage; i++)
+            for (int i = 1; i <= totalPage; i++)
             {
                 var (tempNovels, tempTotalPage) = await CrawlNovels($"{Url}tim-kiem/?tukhoa={keyword}&page=<page>");
                 listNovel.AddRange(tempNovels);
@@ -36,25 +37,44 @@ namespace PluginCrawl
             return listNovel.ToArray();
         }
 
-        public async Task<Tuple<Novel[], int>> CrawlHot(int page)
+        public async Task<Tuple<Novel[], int>> CrawlHot(int page = 1)
         {
             // fetch https://truyenfull.vn/danh-sach/truyen-hot/ 
             var result = await CrawlNovels($"{Url}danh-sach/truyen-hot/trang-<page>/", page);
             return result;
         }
 
-        public async Task<Tuple<Novel[], int>> CrawlLatest(int page)
+        public async Task<Tuple<Novel[], int>> CrawlLatest(int page = 1)
         {
             // fetch https://truyenfull.vn/danh-sach/truyen-moi/
             var result = await  CrawlNovels($"{Url}danh-sach/truyen-moi/trang-<page>/", page);
             return result;
         }
 
-        public async Task<Tuple<Novel[], int>> CrawlCompleted(int page)
+        public async Task<Tuple<Novel[], int>> CrawlCompleted(int page = 1)
         {
             // fetch https://truyenfull.vn/danh-sach/truyen-full/
             var result = await CrawlNovels($"{Url}danh-sach/truyen-full/trang-<page>/", page);
             return result;
+        }
+
+        public async Task<Novel[]> CrawlDetailAllNovels()
+        {
+            var (novels, totalPage) = await CrawlNovels($"{Url}danh-sach/truyen-moi/trang-<page>/");
+
+            List<Novel> listNovel = new List<Novel>();
+            for (int i = 1; i <= 1; i++)
+            {
+                var (tempNovels, tempTotalPage) = await CrawlNovels($"{Url}danh-sach/truyen-moi/trang-<page>/", i);
+
+                foreach (var element in tempNovels)
+                {
+                    var result = await CrawlDetail(element);
+                    listNovel.Add(result);
+                }
+            }
+
+            return listNovel.ToArray();
         }
 
         public async Task<Novel> CrawlDetail(Novel novel)
@@ -62,9 +82,12 @@ namespace PluginCrawl
             var web = new HtmlWeb();
             var document = await web.LoadFromWebAsync($"{Url}{novel.Slug}/");
 
-            novel.Title = document.DocumentNode.QuerySelector("h3.title").InnerText;
-            novel.Rating = float.Parse(document.DocumentNode.QuerySelector("span[itemprop='ratingValue']").InnerText);
-            novel.Description = document.DocumentNode.QuerySelector("div[itemprop='description']").InnerText;
+            novel.Title = document.DocumentNode.QuerySelector("h3.title")?.InnerText;
+
+            var ratingElement = document.DocumentNode.QuerySelector("span[itemprop='ratingValue']");
+            if(ratingElement != null) novel.Rating = float.Parse(ratingElement.InnerText);
+
+            novel.Description = document.DocumentNode.QuerySelector("div[itemprop='description']")?.InnerText;
 
             // get authors
             var authorElements = document.DocumentNode.QuerySelectorAll("a[itemprop='author']");
@@ -90,8 +113,8 @@ namespace PluginCrawl
             }
             novel.Categories = listCategory.ToArray();
 
-            novel.Status = document.DocumentNode.QuerySelector("span.text-success").InnerText.Trim() == "Full"; // check is completed
-            novel.Cover = document.DocumentNode.QuerySelector("div.books img").Attributes["src"].Value;
+            novel.Status = document.DocumentNode.QuerySelector("span.text-success")?.InnerText.Trim() == "Full"; // check is completed
+            novel.Cover = document.DocumentNode.QuerySelector("div.books img")?.Attributes["src"].Value;
 
             // get totalPage
             int totalPage = 1;
@@ -192,20 +215,24 @@ namespace PluginCrawl
             foreach (var novelElement in novelElements)
             {
                 Novel novel = new Novel();
-                novel.Title = novelElement.QuerySelector("h3.truyen-title").InnerText;
-                novel.Slug = novelElement.QuerySelector("h3.truyen-title a").Attributes["href"].Value.Replace(Url, "").Replace("/", "");
+                novel.Title = novelElement.QuerySelector("h3.truyen-title")?.InnerText;
+                novel.Slug = novelElement.QuerySelector("h3.truyen-title a")?.Attributes["href"].Value.Replace(Url, "").Replace("/", "");
 
-                var strAuthor = novelElement.QuerySelector("span.author").InnerText;
+                var strAuthor = novelElement.QuerySelector("span.author")?.InnerText;
                 var authorNames = strAuthor?.Split(',').Select(author => author.Trim()).ToArray();
-                List<Author> listAuthor = new List<Author>();
-                foreach (var name in authorNames)
+                if (authorNames != null)
                 {
-                    var author = new Author();
-                    author.Name = name;
-                    listAuthor.Add(author);
+                    List<Author> listAuthor = new List<Author>();
+                    foreach (var name in authorNames)
+                    {
+                        var author = new Author();
+                        author.Name = name;
+                        listAuthor.Add(author);
+                    }
+                    novel.Authors = listAuthor.ToArray();
                 }
-                novel.Authors = listAuthor.ToArray();
-                novel.Cover = novelElement.QuerySelector("div[data-image]").Attributes["data-image"].Value;
+
+                novel.Cover = novelElement.QuerySelector("div[data-image]")?.Attributes["data-image"].Value;
 
                 listNovel.Add(novel);
             }

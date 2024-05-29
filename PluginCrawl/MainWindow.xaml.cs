@@ -1,4 +1,5 @@
 ﻿using PluginCrawl.Models;
+using System.IO;
 using System.Printing.IndexedProperties;
 using System.Text;
 using System.Windows;
@@ -55,8 +56,7 @@ namespace PluginCrawl
 
             //txtDisplay.Text = plugin.CrawChapter(new Novel() { Slug = "thien-tai-tuong-su" }, new Chapter() { Slug = "chuong-8" });
 
-            PrintCompletedNovelsWithPage(2);
-
+            WriteAllDetailNovel();
         }
 
         public async void PrintAllNovelsBySearch(string keyword) 
@@ -127,6 +127,42 @@ namespace PluginCrawl
                 txt = txt + "Author: " + novel.Authors[0].Name + "\n";
                 txt = txt + "Cover: " + novel.Cover + "\n";
                 txtDisplay.AppendText(txt);
+            }
+        }
+
+        public async void WriteAllDetailNovel()
+        {
+
+            PluginCrawlTruyenFull plugin = new PluginCrawlTruyenFull();
+
+            string path = "Novels.txt";
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                txtDisplay.AppendText("\n Loading data! \n");
+                var novels = await plugin.CrawlDetailAllNovels();
+                txtDisplay.AppendText("\n Loaded data! \n");
+
+                txtDisplay.AppendText("\n Writing file! \n");
+                writer.WriteLine("Total: " + novels.Length + Environment.NewLine);
+                foreach (var novel in novels)
+                {
+                    string txt = "\n ------------------------------------------------------------------------------- \n";
+                    txt = txt + "Title: " + novel.Title + "\n";
+                    txt = txt + "Author: " + novel.Authors[0].Name + "\n";
+                    txt = txt + "Tags: " + novel.Categories[0].Name + "\n";
+                    txt = txt + "Cover: " + novel.Cover + "\n";
+                    txt = txt + "Stauts: " + novel.Status + "\n";
+                    txt = txt + "Rating: " + novel.Rating + "\n";
+                    txt = txt + "Des: " + novel.Description + "\n";
+                    txt = txt + "\n --------------- Chapter ------------------ \n";
+                    foreach (var chapter in novel.Chapters)
+                    {
+                        txt = txt + chapter.Title + "\n";
+                    }
+
+                    writer.WriteLine(txt + Environment.NewLine);
+                }
+                txtDisplay.AppendText("\n Wrote date! \n");
             }
         }
     }

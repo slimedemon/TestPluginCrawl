@@ -12,6 +12,6 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="1" Name="txtDisplay" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Stretch" Margin="10"  />
+        <TextBox Grid.Row="1" Name="txtDisplay" HorizontalAlignment="Stretch"  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Stretch" Margin="10" IsEnabled="False" />
     </Grid>
 </Window>

@@ -9,6 +9,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{237A3F2E-07B1-42FB-80D4-E728F419765B}|PluginCrawl\\PluginCrawl.csproj|e:\\sourcecode\\universityprojects\\thirdyear\\tkpm\\plugins\\plugincrawl\\plugincrawl\\plugincrawltruyenfull.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{237A3F2E-07B1-42FB-80D4-E728F419765B}|PluginCrawl\\PluginCrawl.csproj|solutionrelative:plugincrawl\\plugincrawltruyenfull.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{237A3F2E-07B1-42FB-80D4-E728F419765B}|PluginCrawl\\PluginCrawl.csproj|e:\\sourcecode\\universityprojects\\thirdyear\\tkpm\\plugins\\plugincrawl\\plugincrawl\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{237A3F2E-07B1-42FB-80D4-E728F419765B}|PluginCrawl\\PluginCrawl.csproj|solutionrelative:plugincrawl\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,17 +22,28 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "PluginCrawl\\MainWindow.xaml",
+              "ToolTip": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\MainWindow.xaml",
+              "RelativeToolTip": "PluginCrawl\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-05-29T09:29:31.629Z"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "PluginCrawl\\MainWindow.xaml.cs",
-              "ToolTip": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\MainWindow.xaml.cs*",
-              "RelativeToolTip": "PluginCrawl\\MainWindow.xaml.cs*",
-              "ViewState": "AQIAACkAAAAAAAAAAAAuwDkAAAAaAAAA",
+              "ToolTip": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\MainWindow.xaml.cs",
+              "RelativeToolTip": "PluginCrawl\\MainWindow.xaml.cs",
+              "ViewState": "AQIAAJQAAAAAAAAAAAAowKAAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-29T03:31:16.233Z",
               "EditorCaption": ""
@@ -41,7 +56,7 @@
               "RelativeDocumentMoniker": "PluginCrawl\\PluginCrawlTruyenFull.cs",
               "ToolTip": "E:\\SourceCode\\UniversityProjects\\ThirdYear\\TKPM\\Plugins\\PluginCrawl\\PluginCrawl\\PluginCrawlTruyenFull.cs",
               "RelativeToolTip": "PluginCrawl\\PluginCrawlTruyenFull.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAAAADQAAAA9AAAA",
+              "ViewState": "AQIAAFUAAAAAAAAAAAAAAJ0AAABLAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-29T03:31:14.318Z",
               "EditorCaption": ""
